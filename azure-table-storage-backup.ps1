@@ -1,5 +1,5 @@
 # Modules & Requirements 
-# Download AzCopy v7.3 https://aka.ms/downloadazcopynet later version do not work 
+# Download AzCopy v7.3 https://aka.ms/downloadazcopynet later versions do not work 
 # Cd to directory where AzCopy 7.3 is installed to 
 Import-Module Az.Storage
 
