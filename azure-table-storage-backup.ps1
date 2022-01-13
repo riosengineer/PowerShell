@@ -1,6 +1,7 @@
 # Modules & Requirements 
 # Download AzCopy v7.3 https://aka.ms/downloadazcopynet later versions do not work 
 # Cd to directory where AzCopy 7.3 is installed to 
+# How to guide for running this in an Azure Function: https://rios.engineer/automate-table-storage-backups-using-azure-function/
 Import-Module Az.Storage
 
 Connect-AzAccount
