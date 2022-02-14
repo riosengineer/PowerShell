@@ -123,8 +123,6 @@ foreach ($datasetids in $datasetid){
   Invoke-PowerBIRestMethod -Url $urlGateway -Method PATCH -Body $datasource -ContentType $content -Verbose
 }
 
-
-
 # Turn on refresh schedule 
 [string]$datasetid
 foreach ($datasetids in $datasetid) {
