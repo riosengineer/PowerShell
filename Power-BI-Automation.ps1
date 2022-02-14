@@ -20,15 +20,20 @@ AUTHOR      :  Dan Rios
 #>
   
 param (
-  $tenantid,
-  $appid,
-  $resourcegroupname,
-	$Workspacename,
-  $sqlpassword
+  [parameter(Mandatory=$true)]
+  [string]$tenantid,
+  [parameter(Mandatory=$true)]
+  [string]$appid,
+  [parameter(Mandatory=$true)]
+  [string]$resourcegroupname,
+  [parameter(Mandatory=$true)]
+  [string]$Workspacename,
+  [parameter(Mandatory=$true)]
+  [string]$sqlpassword
 )
 
-$AppId = "AppId
-$TenantId = "TenantID"
+# $AppId = "AppId
+# $TenantId = "TenantID"
 
 # Connect to AzAccount PS Module & populate SQL Server
 Connect-AzAccount -Identity
