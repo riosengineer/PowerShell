@@ -63,6 +63,7 @@ New-PowerBIReport -Path .\Report.pbix -WorkspaceId $workspaceid -Verbose
 
 # Add AD Group or Users to workspace as Administrator
 Add-PowerBIWorkspaceUser -Id $workspaceid -UserEmailAddress dan.rios@UPN.com -AccessRight Admin
+Add-PowerBIWorkspaceUser -Id $workspaceid -PrincipalType Group -Identifier "AAD ObjectID" -AccessRight Admin
 
 # Get Dataset GUID Id
 $dataset = Get-PowerBIDataset -WorkspaceId $workspaceid 
