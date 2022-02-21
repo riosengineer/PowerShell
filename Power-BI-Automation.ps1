@@ -131,15 +131,17 @@ foreach ($datasetids in $datasetid) {
 # Compile API Body request JSON for refresh enable 
 $refresh = '{ 
   value: { 
-    "enabled": "true" 
+    "enabled": true
   }
 }'
 
 # Invoke PowerBI API
-Invoke-PowerBIRestMethod -Url $urlRefreshes -Method PATCH -Body $refresh -ContentType $content -Verbose
+Write-Output Enabling refresh schedule: $datasetids in $workspacename
+Invoke-PowerBIRestMethod -Url "https://api.powerbi.com/v1.0/myorg/groups/$workspaceid/datasets/$datasetids/refreshSchedule" -Method PATCH -Body $refresh -ContentType $content -Verbose
 
 # Refresh Datasets now 
-Invoke-PowerBIRestMethod -Url $urlRefreshNow -Method Post -Body $refresh -ContentType $content -Verbose
+Write-Output Refreshing dataset: $datasetids in $workspacename
+Invoke-PowerBIRestMethod -Url "https://api.powerbi.com/v1.0/myorg/groups/$workspaceid/datasets/$datasetids/refreshes" -Method Post -Body $refresh -ContentType $content -Verbose
 }
 
 # Workspace PowerBI Portal URL 
