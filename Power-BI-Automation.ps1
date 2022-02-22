@@ -37,7 +37,7 @@ param (
 
 # Connect to AzAccount PS Module & populate SQL Server
 Connect-AzAccount -Identity
-$sqlserver = Get-AzSqlServer -ResourceGroupName twa-perf-ci | Select -ExpandProperty FullyQualifiedDomainName
+$sqlserver = Get-AzSqlServer -ResourceGroupName $resourcegroupname | Select -ExpandProperty FullyQualifiedDomainName
 # Get Azure App Secret
 $keyVault = Get-AzKeyVaultSecret -VaultName "VaultName" -Name "AppName" -AsPlainText
 $keyVault | ConvertTo-SecureString -AsPlainText -Force
