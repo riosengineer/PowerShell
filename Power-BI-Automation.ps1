@@ -27,9 +27,7 @@ param (
   [parameter(Mandatory=$true)]
   [string]$resourcegroupname,
   [parameter(Mandatory=$true)]
-  [string]$Workspacename,
-  [parameter(Mandatory=$true)]
-  [string]$sqlpassword
+  [string]$Workspacename
 )
 
 # $AppId = "AppId
@@ -69,14 +67,6 @@ Add-PowerBIWorkspaceUser -Id $workspaceid -PrincipalType Group -Identifier "AAD 
 $dataset = Get-PowerBIDataset -WorkspaceId $workspaceid 
 $datasetid = $dataset.id
 
-# API URLs
-$urlParams = "groups/$workspaceid/datasets/$datasetid/Default.UpdateParameters"
-$urlData = "groups/$workspaceid/datasets/$datasetid/Default.UpdateDatasources"
-$urlTakeover = "groups/$workspaceid/datasets/$datasetid/Default.TakeOver"
-$urlRefreshSchedule = "groups/$workspaceid/datasets/$datasetid/refreshSchedule"
-$urlRefreshNow = "groups/$workspaceid/datasets/$datasetid/refreshes"
-$urlGateway = "gateways/$gatewayId/datasources/$datasourceId"
-
 # Take over data set
 Invoke-PowerBIRestMethod -Url $urlTakeover -Method Post -Verbose
 
@@ -101,44 +91,9 @@ foreach ($datasets in $dataset){
   Invoke-PowerBIRestMethod -Url $urlParams -Method Post -Body $Params -ContentType $content -Verbose
 }
 
-# Updates Dataset Parameters
-[string]$datasetid
-foreach ($datasetids in $datasetid){
-  # Get Data sources & Gateway IDs
-  $datasource = Get-PowerBIDatasource -DatasetId $datasetids -WorkspaceId $workspaceid
-  $gatewayId = $datasource.gatewayId 
-  $datasourceId = $datasource.datasourceId 
-  $urlGateway = "gateways/$gatewayId/datasources/$datasourceId"
-# Compile API Body request JSON  for SQL credentials
-  $datasource = '{
-    "credentialDetails": {
-      "credentialType": "Basic",
-      "credentials": "{\"credentialData\":[{\"name\":\"username\", \"value\":\"sa-admin\"},{\"name\":\"password\", \"value\":\"PasswordHere\"}]}",
-      "encryptedConnection": "Encrypted",
-      "encryptionAlgorithm": "None",
-      "privacyLevel": "None",
-      "useEndUserOAuth2Credentials": "False"
-    }
-  }'
-  # Invoke PowerBI API 
-  Invoke-PowerBIRestMethod -Url $urlGateway -Method PATCH -Body $datasource -ContentType $content -Verbose
-}
-
-# Turn on refresh schedule 
+# refresh now
 [string]$datasetid
 foreach ($datasetids in $datasetid) {
-
-# Compile API Body request JSON for refresh enable 
-$refresh = '{ 
-  value: { 
-    "enabled": true
-  }
-}'
-
-# Invoke PowerBI API
-Write-Output Enabling refresh schedule: $datasetids in $workspacename
-Invoke-PowerBIRestMethod -Url "https://api.powerbi.com/v1.0/myorg/groups/$workspaceid/datasets/$datasetids/refreshSchedule" -Method PATCH -Body $refresh -ContentType $content -Verbose
-
 # Refresh Datasets now 
 Write-Output Refreshing dataset: $datasetids in $workspacename
 Invoke-PowerBIRestMethod -Url "https://api.powerbi.com/v1.0/myorg/groups/$workspaceid/datasets/$datasetids/refreshes" -Method Post -Body $refresh -ContentType $content -Verbose
