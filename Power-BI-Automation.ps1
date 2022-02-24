@@ -74,18 +74,21 @@ Invoke-PowerBIRestMethod -Url $urlTakeover -Method Post -Verbose
 $content = 'application/json'
 
 # Compile API Body request JSON for SQL Server Details
-$params = '{
-  "updateDetails": [
-      {
-        "name": "SQL Database",
-        "newValue": "Database01"
-      },
-      {
-              "name": "SQL Server,
-              "newValue": "$sqlserver"
-          }
-  ]
-}'
+$Parameters = @{
+  "updateDetails"= @(
+      @{
+          "name"="SQL Database";
+          "newValue"="TeamsDiags-ga";
+       },
+      @{
+          "name"="SQL Server";
+          "newValue"="$($sqlserver)";
+       }            
+  )
+}
+
+$Params = $Parameters | ConvertTo-Json -Compress
+
 foreach ($datasets in $dataset){
   # Invoke PowerBI API 
   Invoke-PowerBIRestMethod -Url $urlParams -Method Post -Body $Params -ContentType $content -Verbose
