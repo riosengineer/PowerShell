@@ -67,8 +67,10 @@ Add-PowerBIWorkspaceUser -Id $workspaceid -PrincipalType Group -Identifier "AAD 
 $dataset = Get-PowerBIDataset -WorkspaceId $workspaceid 
 $datasetid = $dataset.id
 
-# Take over data set
-Invoke-PowerBIRestMethod -Url $urlTakeover -Method Post -Verbose
+# Take over data sets
+foreach ($datasetids in $datasetid){
+    Invoke-PowerBIRestMethod -Url "https://api.powerbi.com/v1.0/myorg/groups/$workspaceid/datasets/$datasetids/Default.Takeover" -Method Post -Verbose
+}
 
 # Set Content to JSON 
 $content = 'application/json'
