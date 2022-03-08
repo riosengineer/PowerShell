@@ -78,7 +78,7 @@ $Parameters = @{
   "updateDetails"= @(
       @{
           "name"="SQL Database";
-          "newValue"="TeamsDiags-ga";
+          "newValue"="Db001prod";
        },
       @{
           "name"="SQL Server";
