@@ -20,7 +20,7 @@ Write-Host
 $AutoAttendant = (Get-CsAutoAttendant).count
 $CallQueues = (Get-CsCallQueue).count
 $serviceno = (Get-CsOnlineTelephoneNumber -ActivationState Activated -InventoryType Service).count
-$Interop = (Get-CsOnlineUser | Where-Object {$_.TeamsVideoInteropServicePolicy -ne $null} | Select UserPrincipalName, TeamsVideoInteropServicePolicy).count 
+$Interop = (Get-CsOnlineUser | Where-Object {$_.TeamsVideoInteropServicePolicy -ne $null} | Select UserPrincipalName, (TeamsVideoInteropServicePolicy).count 
 try {
     $CRecording = Get-CsTeamsComplianceRecordingPolicy | Where-Object {$_.Enabled -eq 'True'} | Select-Object Identity }
     catch { Write-Host $Error[0] }
