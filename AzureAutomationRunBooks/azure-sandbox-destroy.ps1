@@ -2,7 +2,7 @@
 Connect-AzAccount -Identity
 $tenantId = Get-AzKeyVaultSecret -VaultName "kv-rios-example" -Name "tenantId" -AsPlainText
 $appId = Get-AzKeyVaultSecret -VaultName "kv-rios-example" -Name "appId" -AsPlainText
-$spnsecret = Get-AzKeyVaultSecret -VaultName "kv-rios-example" -Name "ecret" -AsPlainText
+$spnsecret = Get-AzKeyVaultSecret -VaultName "kv-rios-example" -Name "secret" -AsPlainText
 
 
 # Login to Sandbox Tenant via SPN
